@@ -1,3 +1,4 @@
+import SearchBar from "@/components/SearchBar";
 import { homeStyles } from "@/styles/home.styles";
 import { ScrollView, StatusBar, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,6 +15,8 @@ export default function Page() {
           <Text style={homeStyles.title}>🌤️ Dev Tempo</Text>
           <Text style={homeStyles.subtitle}>Busque o clima em qualquer cidade do mundo!</Text>
         </View>
+
+        <SearchBar />
 
         <View style={homeStyles.emptyContainer}>
           <Text style={homeStyles.emptyText}>🌎 Digite o nome de uma cidade para começar</Text>
