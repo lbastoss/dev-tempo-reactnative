@@ -9,6 +9,7 @@ interface SearchBarProps {
 }
 export default function SearchBar({ onSearch, loading = false }: SearchBarProps) {
     const [searchText, setSearchText] = useState("");
+
     const handleSearch = () => {
         onSearch(searchText)
     }

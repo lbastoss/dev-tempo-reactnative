@@ -1,5 +1,7 @@
+import { getCurrentWeather } from "@/services/weatherService";
 import { detailsStyles } from "@/styles/details.style";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect } from "react";
 import { ActivityIndicator, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -9,8 +11,14 @@ export default function Details() {
     const router = useRouter();
     const cityName = useLocalSearchParams<{ cityName: string }>()
 
-    console.log(cityName);
+    useEffect(() => {
+        if (cityName) getWeatherData()
+    }, [cityName])
 
+    const getWeatherData = async () => {
+        const result = await getCurrentWeather(cityName.cityName as string)
+        console.log(result)
+    }
     return (
         <SafeAreaView style={detailsStyles.safeArea}>
             <StatusBar barStyle="dark-content" />
