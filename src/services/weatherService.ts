@@ -22,13 +22,35 @@ const api = axios.create({
     headers: { 'Content-Type': 'application/json' }
 })
 
+const getErrorMessage = (statusCode: number): string => {
+
+    switch (statusCode) {
+        case 400:
+            return 'Requisição inválida.';
+        case 401:
+            return 'Chave de acesso inválida.';
+        case 404:
+            return 'Cidade não encontrada.';
+        case 429:
+            return 'Servidor sobre carregado, tente novamente mais tarde.';
+        case 500:
+            return 'Erro interno do servidor, tente novamente mais tarde.';
+        case 503:
+            return 'Servidor temporariamente indisponível.';
+        default:
+            return 'Erro ao buscar clima, tente novamente.';
+    }
+
+
+}
+
 export const getCurrentWeather = async (cityName: string): Promise<WeatherResult> => {
     try {
         const trimmedCity = cityName.trim();
         if (!trimmedCity) {
             return {
                 success: false,
-                error: 'Nome da cidade não pode ser vazio.'
+                error: 'Cidade não informada'
             }
         }
 
@@ -43,6 +65,29 @@ export const getCurrentWeather = async (cityName: string): Promise<WeatherResult
             data: response.data
         }
     } catch (err) {
+
+        if (axios.isAxiosError(err)) {
+
+            if (err.response) {
+                return {
+                    success: false,
+                    error: getErrorMessage(err.response.status)
+                }
+            } else if (err.request) {
+                return {
+                    success: false,
+                    error: 'Sem conexão com o servidor, tente novamente.'
+                }
+            }
+            else {
+                return {
+                    success: false,
+                    error: 'Erro ao buscar climca, tente novamente mais tarde '
+                }
+
+            }
+
+        }
         return {
 
             success: false,

@@ -44,7 +44,7 @@ export default function Details() {
             <ScrollView style={detailsStyles.container}>
                 <TouchableOpacity style={detailsStyles.backButton} onPress={() => router.back()}>
                     <Text style={detailsStyles.backButtonText}>
-                        ⬅ Voltar
+                        ← Voltar
                     </Text>
                 </TouchableOpacity>
 
@@ -61,12 +61,14 @@ export default function Details() {
                         <Text style={detailsStyles.loadingText}>Carregando...</Text>
                     </View>)}
 
-                {/* {!loading && error && (
-                    <View style={detailsStyles.errorContainer}></View>
-                    <Text style={detailsStyles.loadingText}>{error}</Text>
-
+                {!loading && error && (
+                    <View style={detailsStyles.errorContainer}>
+                        <Text style={detailsStyles.errorText}>{error}</Text>
+                        <TouchableOpacity style={detailsStyles.retryButton} onPress={getWeatherData}>
+                            <Text style={detailsStyles.retryButtonText}>Tentar novamente</Text>
+                        </TouchableOpacity>
                     </View>
-                )} */}
+                )}
 
                 {!loading && !error && weatherData && (
                     <WeatherCard weather={weatherData} />

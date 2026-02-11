@@ -52,21 +52,36 @@ export const detailsStyles = StyleSheet.create({
         ...typography.body,
         color: colors.textSecondary,
         marginTop: spacing.md
+    },
+
+    errorContainer: {
+        alignItems: "center",
+        padding: spacing.md
+
+    },
+
+    errorText: {
+        color: colors.error,
+        fontSize: 20,
+        textAlign: "center",
+        marginBottom: spacing.md,
+        fontWeight: 600
+    },
+
+    retryButton: {
+        backgroundColor: colors.primary,
+        paddingHorizontal: spacing.lg,
+        padding: spacing.md,
+        borderRadius: 12,
+        marginTop: spacing.md
+    },
+
+    retryButtonText: {
+        color: colors.cardBackground,
+        fontSize: 16,
+        fontWeight: 600
+
     }
-
-    // errorContainer: {
-    //     flex: 1,
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //     paddingVertical: spacing.xl * 2
-    // }
-
-    // errorText: {
-    //     ...typography.body,
-    //     color: colors.error,
-    //     marginTop: spacing.md,
-    //     textAlign: "center"
-    // }
 
 
 
