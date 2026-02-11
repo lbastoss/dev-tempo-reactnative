@@ -1,11 +1,13 @@
 import SearchBar from "@/components/SearchBar";
+import { useLocation } from "@/hooks/useLocation";
 import { homeStyles } from "@/styles/home.styles";
 import { useRouter } from "expo-router";
-import { ScrollView, StatusBar, Text, View } from "react-native";
+import { ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
 export default function App() {
+  const { getCurrentLocation } = useLocation()
   const router = useRouter();
 
   const handleSearch = (cityName: string) => {
@@ -13,6 +15,12 @@ export default function App() {
       pathname: '/details',
       params: { cityName }
     })
+
+  }
+
+  const handleLocation = async () => {
+    const result = await getCurrentLocation()
+    console.log(result)
 
   }
 
@@ -29,6 +37,10 @@ export default function App() {
         </View>
 
         <SearchBar onSearch={handleSearch} />
+
+        <TouchableOpacity onPress={handleLocation}>
+          <Text>Usar minha localização</Text>
+        </TouchableOpacity>
 
         <View style={homeStyles.emptyContainer}>
           <Text style={homeStyles.emptyText}>🌎 Digite o nome de uma cidade para começar</Text>

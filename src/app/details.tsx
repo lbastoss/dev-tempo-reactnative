@@ -31,7 +31,6 @@ export default function Details() {
         setLoading(false)
 
         if (result.success) {
-            console.log(result.data)
             setWeatherData(result.data)
         } else {
             setError(result.error)
@@ -59,7 +58,8 @@ export default function Details() {
                     <View style={detailsStyles.loadingContainer}>
                         <ActivityIndicator size="large" color="#0000ff" />
                         <Text style={detailsStyles.loadingText}>Carregando...</Text>
-                    </View>)}
+                    </View>
+                )}
 
                 {!loading && error && (
                     <View style={detailsStyles.errorContainer}>
