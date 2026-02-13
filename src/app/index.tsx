@@ -1,13 +1,14 @@
 import SearchBar from "@/components/SearchBar";
 import { useLocation } from "@/hooks/useLocation";
+import { getCurrentWeatherByCoords } from "@/services/weatherService";
 import { homeStyles } from "@/styles/home.styles";
 import { useRouter } from "expo-router";
-import { ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
 export default function App() {
-  const { getCurrentLocation } = useLocation()
+  const { getCurrentLocation, loading } = useLocation()
   const router = useRouter();
 
   const handleSearch = (cityName: string) => {
@@ -19,11 +20,25 @@ export default function App() {
   }
 
   const handleLocation = async () => {
-    const result = await getCurrentLocation()
-    console.log(result)
+    const locationResult = await getCurrentLocation();
 
+    if (!locationResult.success) {
+      Alert.alert('Erro', locationResult.error)
+    } else {
+      const { latitude, longitude } = locationResult.coordinates
+      const weatherResult = await getCurrentWeatherByCoords(latitude, longitude)
+
+      if (!weatherResult.success) {
+        Alert.alert('Erro', weatherResult.error)
+
+      } else {
+        router.push({
+          pathname: '/details',
+          params: { cityName: weatherResult.data.name }
+        })
+      }
+    }
   }
-
 
   return (
 
@@ -38,8 +53,9 @@ export default function App() {
 
         <SearchBar onSearch={handleSearch} />
 
-        <TouchableOpacity onPress={handleLocation}>
-          <Text>Usar minha localização</Text>
+        <TouchableOpacity style={homeStyles.gpsButton} onPress={handleLocation}>
+          {loading ? <ActivityIndicator color={"#fff"} size={"small"} /> : <Text style={homeStyles.gpsButtonText}>Usar minha localização</Text>}
+
         </TouchableOpacity>
 
         <View style={homeStyles.emptyContainer}>
@@ -49,5 +65,3 @@ export default function App() {
     </SafeAreaView>
   );
 }
-
-

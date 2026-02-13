@@ -1,12 +1,8 @@
-import { WeatherData } from "@/types/weather";
+import { WeatherData, WeatherError } from "@/types/weather";
 import axios from 'axios';
-
-
 
 export type WeatherResult =
     { success: true; data: WeatherData } | { success: false; error: string }
-
-
 
 const API_KEY = process.env.EXPO_PUBLIC_OPENWERATHER_API_KEY
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL
@@ -40,8 +36,6 @@ const getErrorMessage = (statusCode: number): string => {
         default:
             return 'Erro ao buscar clima, tente novamente.';
     }
-
-
 }
 
 export const getCurrentWeather = async (cityName: string): Promise<WeatherResult> => {
@@ -54,7 +48,6 @@ export const getCurrentWeather = async (cityName: string): Promise<WeatherResult
             }
         }
 
-
         const response = await api.get<WeatherData>('/weather', {
             params: {
                 q: trimmedCity
@@ -64,10 +57,9 @@ export const getCurrentWeather = async (cityName: string): Promise<WeatherResult
             success: true,
             data: response.data
         }
+
     } catch (err) {
-
-        if (axios.isAxiosError(err)) {
-
+        if (axios.isAxiosError<WeatherError>(err)) {
             if (err.response) {
                 return {
                     success: false,
@@ -86,18 +78,48 @@ export const getCurrentWeather = async (cityName: string): Promise<WeatherResult
                 }
 
             }
-
         }
-        return {
 
+        return {
             success: false,
             error: 'Erro ao buscar dados do clima. Verifique o nome da cidade e tente novamente.'
         }
-
     }
+}
 
+export const getCurrentWeatherByCoords = async (latitude: number, longitude: number): Promise<WeatherResult> => {
 
+    try {
+        const response = await api.get<WeatherData>('/weather', {
+            params: {
+                lat: latitude,
+                lon: longitude
+            }
+        })
+        return {
+            success: true,
+            data: response.data
+        }
 
+    } catch (err) {
+        if (axios.isAxiosError<WeatherError>(err)) {
+            if (err.response) {
+                return {
+                    success: false,
+                    error: getErrorMessage(err.response.status)
+                }
+            } else if (err.request) {
+                return {
+                    success: false,
+                    error: 'Sem conexão com o servidor, tente novamente.'
+                }
+            }
+        }
+        return {
+            success: false,
+            error: 'Erro ao buscar clima.'
+        }
+    }
 }
 
 export const getWeatherIcon = (iconCode: string): string => {

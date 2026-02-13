@@ -8,7 +8,6 @@ import { ActivityIndicator, ScrollView, StatusBar, Text, TouchableOpacity, View 
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
-
 export default function Details() {
     const [loading, setLoading] = useState<boolean>(false)
     const [weatherData, setWeatherData] = useState<WeatherData | null>(null)

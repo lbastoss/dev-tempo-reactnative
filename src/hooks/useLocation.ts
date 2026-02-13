@@ -7,8 +7,8 @@ interface Coordinates {
 }
 
 type LocationResult =
-    { sucess: true; coordinates: Coordinates; } |
-    { sucess: false; error: string; }
+    { success: true; coordinates: Coordinates; } |
+    { success: false; error: string; }
 
 export const useLocation = () => {
     const [loading, setLoading] = useState(false)
@@ -24,7 +24,7 @@ export const useLocation = () => {
 
             if (status !== 'granted') {
                 return {
-                    sucess: false,
+                    success: false,
                     error: 'Permissão negada'
                 };
             }
@@ -34,7 +34,7 @@ export const useLocation = () => {
             });
 
             return {
-                sucess: true,
+                success: true,
                 coordinates: {
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude
@@ -44,7 +44,7 @@ export const useLocation = () => {
         }
         catch (error) {
             return {
-                sucess: false,
+                success: false,
                 error: 'Erro ao obter localização'
             };
         } finally {

@@ -8,20 +8,20 @@ export const homeStyles = StyleSheet.create({
     },
 
     container: {
-        flex: 1 
+        flex: 1
     },
 
     header: {
         paddingTop: spacing.xl,
         paddingBottom: spacing.md,
         paddingHorizontal: spacing.md,
-    }, 
+    },
 
     title: {
         ...typography.title,
         color: colors.text,
         textAlign: 'center'
-    }, 
+    },
 
     subtitle: {
         ...typography.subtitle,
@@ -42,6 +42,23 @@ export const homeStyles = StyleSheet.create({
         color: colors.textLight,
         textAlign: 'center'
 
+    },
+
+    gpsButton: {
+        backgroundColor: colors.primary,
+        marginHorizontal: spacing.md,
+        marginTop: spacing.md,
+        paddingVertical: spacing.sm + 4,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 48
+    },
+
+    gpsButtonText: {
+        color: colors.background,
+        fontSize: 16,
+        fontWeight: 600
     }
 
 })
